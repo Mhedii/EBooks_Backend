@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1', routes);
 // Testing
 app.get('/', (req: Request, res: Response) => {
-  res.send('Connction Successful');
+  res.send('Connection Successful');
 });
 app.get('/', async (req: Request, res: Response, next: NextFunction) => {
   Promise.reject(new Error('Unhandled Promise Rejection'));
@@ -22,8 +22,6 @@ app.get('/', async (req: Request, res: Response, next: NextFunction) => {
 
 //Global Error Handling
 // app.use(globalErrorHandler);
-
-
 
 // Not Found Route
 app.use((req: Request, res: Response, next: NextFunction) => {

@@ -6,29 +6,36 @@ export const bookSchema = new Schema<IBook>(
     id: {
       type: Number,
     },
+    // file: {
+    //   type: File,
+    // },
     title: {
       type: String,
-      required: true,
+      // required: true,
     },
     author: {
       type: String,
-      required: true,
+      // required: true,
+    },
+    anotherAuthor: {
+      type: String,
+      // required: true,
     },
     genre: {
       type: String,
-      required: true,
+      // required: true,
     },
     publicaitonYear: {
       type: Number,
-      required: true,
+      // required: true,
     },
     publicaitonDate: {
       type: String,
-      required: true,
+      // required: true,
     },
     reviews: {
       type: Number,
-      required: true,
+      // required: true,
     },
   },
   { timestamps: true },
@@ -37,9 +44,10 @@ bookSchema.pre('save', async function (next) {
   const isExist = await Book.findOne({
     id: this.id,
   });
+
   if (isExist) {
     // throw new ApiError(false, 'Phone Number is Already exist');
-    console.log("object");
+    console.log(isExist);
   }
   next();
 });
