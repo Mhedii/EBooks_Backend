@@ -33,10 +33,15 @@ export const bookSchema = new Schema<IBook>(
       type: String,
       // required: true,
     },
-    reviews: {
-      type: Number,
-      // required: true,
-    },
+    // reviews: {
+    //   type: Number,
+    //   // required: true,
+    // },
+    reviews: [
+      {
+        type: String,
+      },
+    ],
   },
   { timestamps: true },
 );

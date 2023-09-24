@@ -20,6 +20,25 @@ const AddBook = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const AddReview = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { reviews } = req.body;
+  // console.log(id, reviews);
+  if (!id || !reviews || !Array.isArray(reviews)) {
+    return res.status(httpStatus.BAD_REQUEST).json({
+      success: false,
+      message: 'Invalid Input Data',
+    });
+  }
+
+  const result = await BookService.AddReview(id, reviews);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Review Added successfully',
+    data: result?.reviews,
+  });
+});
 
 const getAllBooks = catchAsync(async (req: Request, res: Response) => {
   // const result = await BookService.getAllBooks();
@@ -80,4 +99,5 @@ export const BookController = {
   getSingleBook,
   updateBook,
   deleteBook,
+  AddReview,
 };

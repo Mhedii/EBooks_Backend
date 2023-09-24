@@ -16,6 +16,23 @@ const AddBook = async (book: IBook): Promise<IBook | null> => {
   }
   return AddBook;
 };
+const AddReview = async (
+  id: string,
+  reviews: string[],
+): Promise<IBook | null> => {
+  try {
+    const book = await Book.findById(id);
+    console.log(book);
+    if (!book) {
+      throw new Error('Book Not Found');
+    }
+    book.reviews?.push(...reviews);
+    await book.save();
+    return book;
+  } catch (error) {
+    throw new Error('Failed to add reviews to the book');
+  }
+};
 
 const getAllBooks = async (search: IBookSearch, filters: IBookFilters) => {
   // const result = await Book.find({});
@@ -25,33 +42,28 @@ const getAllBooks = async (search: IBookSearch, filters: IBookFilters) => {
 
   const andConditions = [];
 
-  if (Object.keys(filtersData).length) {
+  if (Object.keys(filtersData).length > 0) {
     andConditions.push({
       $and: Object.entries(filtersData).map(([field, value]) => ({
         [field]: value,
       })),
     });
   }
-  if (Object.keys(searchTerm).length) {
+
+  if (Object.keys(searchTerm).length > 0) {
     andConditions.push({
-      $and: Object.entries(searchTerm).map(([field, value]) => ({
-        [field]: value,
+      $or: BookSearchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm.author || searchTerm.genre || searchTerm.title,
+          $options: 'i',
+        },
       })),
     });
   }
-  // if (searchTerms) {
-  //   andConditions.push({
-  //     $or: BookSearchableFields.map(field => ({
-  //       [field]: {
-  //         $regex: searchTerms,
-  //         $options: 'i',
-  //       },
-  //     })),
-  //   });
-  // }
 
   const whereConditions =
     andConditions.length > 0 ? { $and: andConditions } : {};
+
   const result = await Book.find(whereConditions);
 
   return {
@@ -84,4 +96,5 @@ export const BookService = {
   getSingleBook,
   updateBook,
   deleteBookById,
+  AddReview,
 };

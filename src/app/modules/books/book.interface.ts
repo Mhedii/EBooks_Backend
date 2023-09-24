@@ -9,15 +9,15 @@ export type IBook = {
   genre?: string;
   publicaitonYear?: number;
   publicaitonDate?: string;
-  reviews?: number;
+  reviews?: string[];
 };
 
 export type BookModel = Model<IBook, Record<string, unknown>>;
 
 export type IBookFilters = {
-  // searchTerm?: string;
+  searchTerm?: string;
   genre?: string;
-  publicationYear?: number;
+  publicaitonYear?: number;
 };
 export type IBookSearch = {
   searchTerm?: string;
@@ -27,4 +27,4 @@ export type IBookSearch = {
 };
 
 export const BookSearchableFields = ['searchTerm', 'title', 'author', 'genre'];
-export const BookFilterableFields = ['searchTerm', 'genre', 'publicationYear'];
+export const BookFilterableFields = ['searchTerm', 'genre', 'publicaitonYear'];
